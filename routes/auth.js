@@ -41,7 +41,7 @@ router.post('/signup', async (req, res) => {
     avatar: avatar,
   })
   req.login(newUser, () => {
-    return res.status(200).json(newUser)
+    return res.json(newUser)
   })
 })
 
