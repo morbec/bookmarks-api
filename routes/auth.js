@@ -4,19 +4,18 @@ const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const router = express.Router()
 
-// Bcrypt to encrypt passwords
 const bcryptSalt = 10
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  req.login(req.user, (error) => {
-    if (error)
+  req.login(req.user, (err) => {
+    if (err)
       return res.status(500).json({
         message: 'Something went wrong in the authentication process',
       })
     return res.json(req.user)
   }),
     (error, req, res) => {
-      return res.status(401).json({ message: `Database error: ${error}` })
+      return res.status(401).json(error)
     }
 })
 
