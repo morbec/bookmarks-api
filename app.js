@@ -42,6 +42,8 @@ app.use(cookieParser())
 // default value for title local
 app.locals.title = 'Bookmarks'
 
+app.use(express.static(path.join(__dirname, 'public')))
+
 // Enable authentication using session + passport
 app.use(
   session({
