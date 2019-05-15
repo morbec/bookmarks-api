@@ -7,12 +7,6 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     name: { type: String },
     avatar: { type: String },
-    _bookmarks: [
-      {
-        type: [ Schema.Types.ObjectId ],
-        ref: 'Bookmark',
-      },
-    ],
   },
   {
     timestamps: {

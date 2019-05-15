@@ -47,8 +47,8 @@ router.post('/signup', async (req, res) => {
 
 router.post('/edit/:_id', async (req, res) => {
   const { _id } = req.params
-  const { email, name, avatar, bookmarks } = req.body
-  const updatedUser = await User.findByIdAndUpdate(_id, { email, name, avatar, bookmarks }, { new: true })
+  const { email, name, avatar } = req.body
+  const updatedUser = await User.findByIdAndUpdate(_id, { email, name, avatar }, { new: true })
   return res.status(200).json(updatedUser)
 })
 
@@ -67,7 +67,7 @@ router.post('/upload', uploader.single('image'), (req, res) => {
     })
 })
 
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
   req.logout()
   res.status(200).json({ message: 'User successfully logged out' })
 })
