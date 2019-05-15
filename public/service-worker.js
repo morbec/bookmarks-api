@@ -1,0 +1,1 @@
+/Users/morbec/Developer/Project03/bookmark/bookmark-app/build/service-worker.js
