@@ -61,4 +61,8 @@ router.delete('/:_id', (req, res) => {
     })
 })
 
+router.get('/scrape/:url', (req, res) => {
+  return res.json({ message: 'work in progress' })
+})
+
 module.exports = router
