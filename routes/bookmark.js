@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  Bookmark.find({})
+  Bookmark.find({ _owner: req.user._id })
     .then((bookmarks) => {
       res.json(bookmarks)
     })
