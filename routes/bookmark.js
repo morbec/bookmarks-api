@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const getTitleAtUrl = require('get-title-at-url')
 const Bookmark = require('../models/Bookmark')
 
 router.post('/', (req, res) => {
@@ -61,8 +62,11 @@ router.delete('/:_id', (req, res) => {
     })
 })
 
-router.get('/scrape/:url', (req, res) => {
-  return res.json({ message: 'work in progress' })
+router.post('/scrape', (req, res) => {
+  const newBookmark = req.body.anyURL
+  getTitleAtUrl(newBookmark, (title) => {
+    return res.json(title)
+  })
 })
 
 module.exports = router

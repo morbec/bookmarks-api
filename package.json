@@ -24,6 +24,7 @@
     "eslint-plugin-react": "^7.13.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "get-title-at-url": "^1.1.6",
     "loggerr": "^2.0.1",
     "mongoose": "^5.2.10",
     "morgan": "^1.9.0",
