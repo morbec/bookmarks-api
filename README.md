@@ -1,4 +1,4 @@
-# api server
+# API Server
 Server side for the project 3 (Bookmark Manager) of the Web Developer Bootcamp at Ironhack.
 
 _Work in progress ...._
