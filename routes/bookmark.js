@@ -2,20 +2,35 @@ const express = require('express')
 const router = express.Router()
 const getTitleAtUrl = require('get-title-at-url')
 const Bookmark = require('../models/Bookmark')
+const Tag = require('../models/Tag')
 
-router.post('/', (req, res) => {
-  Bookmark.create({
-    title: req.body.title,
-    url: req.body.url,
-    _owner: req.user._id,
-    tags: [],
-  })
-    .then((bookmark) => {
-      res.json(bookmark)
+router.post('/', async (req, res) => {
+  const _tags = req.body.tags
+  const tagsArray = []
+
+  for (let index = 0; index < _tags.length; index++) {
+    const tag = _tags[index]
+    let dbTag = await Tag.findOne({ name: tag })
+    if (!dbTag) {
+      dbTag = await Tag.create({ name: tag })
+    }
+    tagsArray.push(dbTag._id)
+  }
+
+  let { title, url } = req.body
+  if (!url.startsWith('http')) url = 'https://' + url.trim()
+
+  try {
+    const bookmark = await Bookmark.create({
+      title,
+      url,
+      _owner: req.user._id,
+      _tags: tagsArray
     })
-    .catch((error) => {
-      res.status(error.code).json({ message: `Database error: ${error}` })
-    })
+    return res.json(bookmark)
+  } catch (error) {
+    res.status(error.code).json({ message: `Database error: ${error}` })
+  }
 })
 
 router.get('/', (req, res) => {
@@ -31,7 +46,7 @@ router.get('/', (req, res) => {
 router.get('/:_id', (req, res) => {
   Bookmark.findById(req.params._id)
     .populate({
-      path: 'tags',
+      path: 'tags'
     })
     .then((bookmark) => {
       res.json(bookmark)
