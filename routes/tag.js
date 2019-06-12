@@ -14,14 +14,14 @@ router.post('/', (req, res) => {
     .catch((error) => res.status(error.code).json({ message: `Database error: ${error}` }))
 })
 
-// user can create a tag but and add it to a bookmark
+// user can create a tag and add it to a bookmark
 router.post('/:_bookmark', (req, res) => {
   const { _bookmark } = req.params
   const { name } = req.body
   // const user = req.user._id
   Tag.create({
     name,
-    _bookmark,
+    _bookmark
   }).then((tag) => {
     // res.json(tag)
     Bookmark.findOneAndUpdate({ _id: _bookmark }, { $push: { _tags: tag._id } })
