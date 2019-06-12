@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', (req, res) => {
   Bookmark.find({ _owner: req.user._id })
+    .populate({ path: '_tags' })
     .then((bookmarks) => {
       res.json(bookmarks)
     })
@@ -46,7 +47,7 @@ router.get('/', (req, res) => {
 router.get('/:_id', (req, res) => {
   Bookmark.findById(req.params._id)
     .populate({
-      path: 'tags'
+      path: '_tags'
     })
     .then((bookmark) => {
       res.json(bookmark)
