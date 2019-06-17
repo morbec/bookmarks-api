@@ -8,7 +8,6 @@
     "dev-windows": "nodemon ./bin/www"
   },
   "dependencies": {
-    "babel-eslint": "^10.0.1",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "cloudinary": "^1.14.0",
@@ -17,11 +16,6 @@
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "dotenv": "^6.0.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "get-title-at-url": "^1.1.6",
@@ -34,6 +28,12 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0"
   }
 }
