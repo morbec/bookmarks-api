@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=PROD node ./bin/www",
@@ -16,9 +16,8 @@
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "dotenv": "^6.0.0",
-    "express": "^4.16.3",
+    "express": "^4.17.1",
     "express-session": "^1.15.6",
-    "get-title-at-url": "^1.1.6",
     "loggerr": "^2.0.1",
     "mongoose": "^5.2.10",
     "morgan": "^1.9.0",

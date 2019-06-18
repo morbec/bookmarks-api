@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const getTitleAtUrl = require('get-title-at-url')
 const Bookmark = require('../models/Bookmark')
 const Tag = require('../models/Tag')
 
@@ -9,12 +8,14 @@ router.post('/', async (req, res) => {
   const tagsArray = []
 
   for (let index = 0; index < _tags.length; index++) {
-    const tag = _tags[index]
-    let dbTag = await Tag.findOne({ name: tag })
-    if (!dbTag) {
-      dbTag = await Tag.create({ name: tag })
+    const tag = _tags[index].trim()
+    if (tag.length) {
+      let dbTag = await Tag.findOne({ name: tag })
+      if (!dbTag) {
+        dbTag = await Tag.create({ name: tag })
+      }
+      tagsArray.push(dbTag._id)
     }
-    tagsArray.push(dbTag._id)
   }
 
   let { title, url } = req.body
@@ -76,13 +77,6 @@ router.delete('/:_id', (req, res) => {
     .catch((error) => {
       res.json({ message: `Database error: ${error}` })
     })
-})
-
-router.post('/scrape', (req, res) => {
-  const newBookmark = req.body.anyURL
-  getTitleAtUrl(newBookmark, (title) => {
-    return res.json(title)
-  })
 })
 
 module.exports = router
