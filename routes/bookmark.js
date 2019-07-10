@@ -4,30 +4,26 @@ const Bookmark = require('../models/Bookmark')
 const Tag = require('../models/Tag')
 
 router.post('/', async (req, res) => {
-  const _tags = req.body.tags
-  const tagsArray = []
+  // TOOD: Rename _tags to tags (for consistency)
+  let { title, url, tags } = req.body
+  const _owner = req.user._id
+  const _tags = []
 
-  for (let index = 0; index < _tags.length; index++) {
-    const tag = _tags[index].trim()
+  for (let index = 0; index < tags.length; index++) {
+    const tag = tags[index].trim()
     if (tag.length) {
       let dbTag = await Tag.findOne({ name: tag })
       if (!dbTag) {
         dbTag = await Tag.create({ name: tag })
       }
-      tagsArray.push(dbTag._id)
+      _tags.push(dbTag._id)
     }
   }
 
-  let { title, url } = req.body
   if (!url.startsWith('http')) url = 'https://' + url.trim()
 
   try {
-    const bookmark = await Bookmark.create({
-      title,
-      url,
-      _owner: req.user._id,
-      _tags: tagsArray
-    })
+    const bookmark = await Bookmark.create({ title, url, _owner, _tags })
     return res.json(bookmark)
   } catch (error) {
     res.status(error.code).json({ message: `Database error: ${error}` })
@@ -58,15 +54,35 @@ router.get('/:_id', (req, res) => {
     })
 })
 
-router.put('/:_id', (req, res) => {
-  const { title, url, _owner, _tags } = req.body
-  Bookmark.findByIdAndUpdate(req.params._id, { title, url, _owner, _tags }, { new: true })
-    .then((updatedBookmark) => {
-      res.json(updatedBookmark)
-    })
-    .catch((error) => {
-      res.status(error.code).json({ message: `Database error: ${error}` })
-    })
+router.put('/:_id', async (req, res) => {
+  const { _id } = req.params // bookmark._id
+  const _owner = req.user._id // user._id
+  let { title, url, tags } = req.body
+  const _tags = []
+
+  for (let index = 0; index < tags.length; index++) {
+    const tag = tags[index].trim()
+    if (tag.length) {
+      let dbTag = await Tag.findOne({ name: tag })
+      if (!dbTag) {
+        dbTag = await Tag.create({ name: tag })
+      }
+      _tags.push(dbTag._id)
+    }
+  }
+
+  if (!url.startsWith('http')) url = 'https://' + url.trim()
+
+  try {
+    const editedBookmark = await Bookmark.findByIdAndUpdate(
+      _id,
+      { title, url, _owner, _tags },
+      { new: true }
+    )
+    return res.json(editedBookmark)
+  } catch (error) {
+    return res.status(error.code).json({ message: `Database error: ${error}` })
+  }
 })
 
 router.delete('/:_id', (req, res) => {
